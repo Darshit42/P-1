@@ -1,12 +1,12 @@
 pipeline {
     agent any
-    tools{
+    tools {
         maven 'maven'
     }
     stages {
         stage('Build') {
             steps {
-               bat 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
         stage('Test') {
@@ -14,12 +14,12 @@ pipeline {
                 bat 'mvn test'
             }
         }
-        stage('run jar') {
+        stage('Run JAR') {
             steps {
                 script {
-                    def output = bat(script : 'java -jar target/simple-java-project-1,0-SNAPSHOT.jar', returnStdout:true).trim()
+                    def output = bat(script: 'java -jar target/*.jar', returnStdout: true).trim()
 
-                    echo "Output from jar : ${output}"
+                    echo "Output from JAR: ${output}"
                 }
             }
         }
