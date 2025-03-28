@@ -7,11 +7,10 @@ pipeline {
         stage('Cleanup') {
             steps {
                 deleteDir() 
-            }
         }
         stage('Build') {
             steps {
-                bat 'mvn clean package'st
+                bat 'mvn clean package'
                 bat 'dir target' 
             }
         }
