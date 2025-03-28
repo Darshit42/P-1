@@ -1,28 +1,30 @@
 pipeline {
     agent any
-    tools {
-        maven 'maven'  // Use the exact name you set in Global Tool Configuration
-    }
     stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/Darshit42/P392847329487.git', branch: 'main'
+            }
+        }
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'git checkout main'
+                echo 'BUILD Started'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh '''
+                    git add .
+                    git commit -m "commit 2"
+                '''
+                echo 'Test Started'
             }
         }
-        stage('Run JAR') {
+        stage('Deploy') {
             steps {
-                script {
-                    // Run the JAR file and capture the output
-                    def output = sh(script: 'java -jar target/simple-java-project-1.0-SNAPSHOT.jar', returnStdout: true).trim()
-
-                    // Print the output to Jenkins console
-                    echo "Output from JAR: ${output}"
-                }
+                sh 'git push origin main'
+                echo 'Deployment Started'
             }
         }
     }
