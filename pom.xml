@@ -26,7 +26,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Main-Class>com.example.Main</Main-Class> <!-- Replace with your main class -->
+                            <Main-Class>com.example.APP</Main-Class> <!-- Replace with your main class -->
                         </manifestEntries>
                     </archive>
                 </configuration>
