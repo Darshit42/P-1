@@ -17,7 +17,7 @@ pipeline {
         stage('Run JAR') {
             steps {
                 script {
-                    def output = bat(script: 'java -jar target/*.jar', returnStdout: true).trim()
+                    def output = bat(script: 'java -jar *.jar', returnStdout: true).trim()
 
                     echo "Output from JAR: ${output}"
                 }
