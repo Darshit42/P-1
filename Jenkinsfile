@@ -1,68 +1,29 @@
 pipeline {
     agent any
     tools {
-        maven 'maven'
+        maven 'maven'  // Use the exact name you set in Global Tool Configuration
     }
     stages {
-        stage('Cleanup') {
-            steps {
-                deleteDir()
-            }
-        }
         stage('Build') {
             steps {
-                bat 'mvn clean package'
-                bat 'dir target'
+                sh 'mvn clean package'
             }
         }
         stage('Test') {
             steps {
-                bat 'mvn test'
+                sh 'mvn test'
             }
         }
         stage('Run JAR') {
             steps {
                 script {
-                    def jarFile = bat(script: 'dir /b target\\*.jar', returnStdout: true).trim()
-                    echo "Detected JAR file: ${jarFile}"
-                    def output = bat(script: "java -jar target\\${jarFile}", returnStdout: true).trim()
+                    // Run the JAR file and capture the output
+                    def output = sh(script: 'java -jar target/simple-java-project-1.0-SNAPSHOT.jar', returnStdout: true).trim()
+
+                    // Print the output to Jenkins console
                     echo "Output from JAR: ${output}"
                 }
             }
         }
-    } 
+    }
 }
-pipeline {
-    agent any
-    tools {
-        maven 'maven'
-    }
-    stages {
-        stage('Cleanup') {
-            steps {
-                deleteDir()
-            }
-        }
-        stage('Build') {
-            steps {
-                bat 'mvn clean package'
-                bat 'dir target' 
-            }
-        }
-        stage('Test') {
-            steps {
-                bat 'mvn test'
-            }
-        }
-        stage('Run JAR') {
-            steps {
-                script {
-                    def jarFile = bat(script: 'dir /b target\\*.jar', returnStdout: true).trim()
-                    echo "Detected JAR file: ${jarFile}"
-                    def output = bat(script: "java -jar target\\${jarFile}", returnStdout: true).trim()
-                    echo "Output from JAR: ${output}"
-                }
-            }
-        }
-    }
-} 
