@@ -4,9 +4,15 @@ pipeline {
         maven 'maven'
     }
     stages {
+        stage('Cleanup') {
+            steps {
+                deleteDir() 
+            }
+        }
         stage('Build') {
             steps {
-                bat 'mvn clean package'
+                bat 'mvn clean package'st
+                bat 'dir target' 
             }
         }
         stage('Test') {
@@ -17,8 +23,9 @@ pipeline {
         stage('Run JAR') {
             steps {
                 script {
-                    def output = bat(script: 'java -jar *.jar', returnStdout: true).trim()
-
+                    def jarFile = bat(script: 'dir /b target\\*.jar', returnStdout: true).trim()
+                    echo "Detected JAR file: ${jarFile}"
+                    def output = bat(script: "java -jar target\\${jarFile}", returnStdout: true).trim()
                     echo "Output from JAR: ${output}"
                 }
             }
