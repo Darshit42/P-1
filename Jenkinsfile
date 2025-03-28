@@ -1,30 +1,26 @@
 pipeline {
     agent any
+    tools{
+        maven 'maven'
+    }
     stages {
-        stage('Checkout') {
-            steps {
-                git url: 'https://github.com/Darshit42/P392847329487.git', branch: 'main'
-            }
-        }
         stage('Build') {
             steps {
-                sh 'git checkout main'
-                echo 'BUILD Started'
+                sh'mvn clean package'
             }
         }
         stage('Test') {
             steps {
-                sh '''
-                    git add .
-                    git commit -m "commit 2"
-                '''
-                echo 'Test Started'
+                sh 'mvn test'
             }
         }
-        stage('Deploy') {
+        stage('run jar') {
             steps {
-                sh 'git push origin main'
-                echo 'Deployment Started'
+                script {
+                    def output = sh(script : 'java -jar target/simple-java-project-1,0-SNAPSHOT.jar', returnStdout:true).trim()
+
+                    echo "Output from jar : ${output}"
+                }
             }
         }
     }
