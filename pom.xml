@@ -26,7 +26,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Main-Class>com.example.APP</Main-Class> <!-- Replace with your main class -->
+                            <Main-Class>com.example.App</Main-Class> <!-- Correct capitalization -->
                         </manifestEntries>
                     </archive>
                 </configuration>
